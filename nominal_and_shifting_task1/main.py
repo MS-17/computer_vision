@@ -46,13 +46,12 @@ def get_nominal_resolution(plot_imgs: bool = True):
 	if plot_imgs:
 		plot_images(imgs, 2, 3)
 
+	# find the longest row that contains ones and count the nominal resolution
 	img1 = imgs["figure1.txt"]["data"]
-	print(img1 == 1)
-
-	# todo find the longest row that contains ones
-
-	# plt.imshow(imgs["figure6.txt"]["data"])
-	# plt.show()
+	sums = img1.sum(axis=1)
+	max_pixel_length = max(sums)
+	nominal_resolution = imgs["figure1.txt"]["max_length"] / max_pixel_length
+	print(nominal_resolution)
 
 
 def get_transition_vector():
