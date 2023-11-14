@@ -4,9 +4,12 @@ import matplotlib.pyplot as plt
 
 def plot_images(images: dict, nrows: int = 1, ncols: int = 1) -> None:
 	"""
-		images: {"image_title": {"data": 2Darray}}
-		nrows: a number of rows the window
-		ncols: a number of columns in the window
+		Description: 
+			plot multiple images in a single window
+		Parameters:
+			images: {"image_title": {"data": 2Darray}}
+			nrows: a number of rows the window
+			ncols: a number of columns in the window
 	"""
 
 	if nrows <= 0 or ncols <= 0:
@@ -51,8 +54,8 @@ def get_nominal_resolution(images: dict) -> dict:
 
 
 def subtask1(plot_imgs: bool = False) -> None:
-	imgs = {} 
 	# imgs is a dict in the following format: {"image_title": {"max_length": int}, {"data": 2Darray}}
+	imgs = {} 
 	for i in range(1, 7):		
 		path = "figure" + str(i) + ".txt"
 		imgs[path] = {}
@@ -81,7 +84,7 @@ def get_transition_vector(images: dict) -> list:
 	coords1 = np.column_stack((a[0], a[1]))
 	coords2 = np.column_stack((b[0], b[1]))
 	
-	#subtract the matrices and find transition vector
+	#subtract the matrices and find the transition vector
 	result = np.unique(np.abs(coords1 - coords2))
 	return result
 
