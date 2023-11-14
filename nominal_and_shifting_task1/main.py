@@ -8,7 +8,7 @@ def plot_images(images: dict, nrows: int = 1, ncols: int = 1) -> None:
 		nrows: a number of rows the window
 		ncols: a number of columns in the window
 	"""
-	
+
 	if nrows <= 0 or ncols <= 0:
 		raise ValueError("nrows or ncols should be greater than 0")
 
@@ -20,11 +20,9 @@ def plot_images(images: dict, nrows: int = 1, ncols: int = 1) -> None:
 		# axes.ravel() flattens the 2D array of axes 
 		axes = axes.ravel()
 
-
 	for idx, title in enumerate(images):
 		if idx + 1 > nrows * ncols:
 			break
-
 		# get the current axis via its index
 		axis = axes[idx]
 		# display a picture in the axis and set picture's title
@@ -52,7 +50,6 @@ def get_nominal_resolution(images: dict) -> dict:
 	return result
 
 
-# subtask 1 - get nominal resolution
 def subtask1(plot_imgs: bool = False) -> None:
 	imgs = {} 
 	# imgs is a dict in the following format: {"image_title": {"max_length": int}, {"data": 2Darray}}
@@ -70,17 +67,48 @@ def subtask1(plot_imgs: bool = False) -> None:
 		print(title, resolution)
 
 
+def get_transition_vector(images: dict) -> list:
+	result = []
 
-def get_transition_vector():
-	...
+	t  = list(images.keys())
+	im1, im2 = images[t[0]]["data"], images[t[1]]["data"]
+	
+	# get coordinates of all pixels = 1
+	a = np.where(im1 == 1)
+	b = np.where(im2 == 1)
+
+	# create matrices of these coordinates
+	coords1 = np.column_stack((a[0], a[1]))
+	coords2 = np.column_stack((b[0], b[1]))
+	
+	#subtract the matrices and find transition vector
+	result = np.unique(np.abs(coords1 - coords2))
+	return result
+
+
+def subtask2(plot_imgs: bool = False) -> None:
+	# imgs is a dict in the following format: {"image_title": {"max_length": int}, {"data": 2Darray}}
+	imgs = {}
+	for i in range(1, 3):		
+		path = "img" + str(i) + ".txt"
+		imgs[path] = {}
+		imgs[path]["data"] = np.loadtxt(path, skiprows=2)
+	
+	if plot_imgs:
+		plot_images(imgs, 1, 2)
+
+	res = get_transition_vector(imgs)
+	print(f"Transition vector: ({res[0]}, {res[1]})")
 
 
 def main():
-	subtask1(plot_imgs=False)
 
-	# subtask 2
-	get_transition_vector()
-	
+	print("Nominal resolution")
+	subtask1(plot_imgs=True)
+
+	print("\n\nTransition vector")
+	subtask2(plot_imgs=True)
+
 	return 0
 
 
