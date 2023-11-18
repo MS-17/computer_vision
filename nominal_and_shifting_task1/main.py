@@ -57,7 +57,7 @@ def subtask1(plot_imgs: bool = False) -> None:
 	# imgs is a dict in the following format: {"image_title": {"max_length": int}, {"data": 2Darray}}
 	imgs = {} 
 	for i in range(1, 7):		
-		path = "figure" + str(i) + ".txt"
+		path = "data/figure" + str(i) + ".txt"
 		imgs[path] = {}
 		imgs[path]["max_length"] = int(np.loadtxt(path, max_rows=1))
 		imgs[path]["data"] = np.loadtxt(path, skiprows=2)
@@ -85,7 +85,7 @@ def get_transition_vector(images: dict) -> list:
 	coords2 = np.column_stack((b[0], b[1]))
 	
 	#subtract the matrices and find the transition vector
-	result = np.unique(np.abs(coords1 - coords2))
+	result = np.unique(coords2 - coords1)
 	return result
 
 
@@ -93,7 +93,7 @@ def subtask2(plot_imgs: bool = False) -> None:
 	# imgs is a dict in the following format: {"image_title": {"max_length": int}, {"data": 2Darray}}
 	imgs = {}
 	for i in range(1, 3):		
-		path = "img" + str(i) + ".txt"
+		path = "data/img" + str(i) + ".txt"
 		imgs[path] = {}
 		imgs[path]["data"] = np.loadtxt(path, skiprows=2)
 	

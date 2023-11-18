@@ -304,3 +304,6 @@ pyrightconfig.json
 *.dat
 *.npy
 *.png
+!nominal_and_shifting_task1/data/*
+
+
