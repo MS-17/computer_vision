@@ -43,19 +43,22 @@ def get_vertical_grad(img, color1, color2):
 
 def get_diagonal_grad(img, color1, color2):
 	image = img.copy()
+	image = np.swapaxes(image, 0, 2)
 	print(image.shape)
-	ratios = np.linspace(0, 1, image.shape[0])
+
+	ratios = np.linspace(0, 1, image.shape[1])
 	for i, t in enumerate(ratios):
 		r = lerp(color1[0], color2[0], t)
 		g = lerp(color1[1], color2[1], t)
 		b = lerp(color1[2], color2[2], t)
 
+		# todo complete
 		for j in range(i, -1, -1):
 			print(j)
 			for k in range(image.shape[1]):
 				image[:, j, k] = [r, g, b]
 
-	return image
+	return np.swapaxes(image, 0, 2)
 
 
 def main():
@@ -67,16 +70,18 @@ def main():
 	color1 = [255, 128, 0]
 	color2 = [0, 128, 255]
 	image = get_vertical_grad(image, color1, color2)
-	# image = get_diagonal_grad(image, color1, color2)
+	image = get_diagonal_grad(image, color1, color2)
 	
-	# plt.imshow(image)
-	# plt.show()
+	plt.imshow(image)
+	plt.show()
 
 	
-	a = np.array([ [[1, 2, 3,], [4, 5, 6,]],  [[7, 8, 9,], [10, 11, 12]] ])
-	print(a.shape)
-	print(a[:, 0, 1])
-	# a = np.flipud(a)
+	# a = np.array([ [[1, 2, 3,], [4, 5, 6,]],  [[7, 8, 9,], [10, 11, 12]] ])
+	# print(a.shape)
+	# print(a)
+	# print(np.swapaxes(a, 0, 2))
+	# print(a[:, 0, 1])
+	# # a = np.flipud(a)
 	# print(a)
 	# print(np.diagonal(a, offset=-3))
 
