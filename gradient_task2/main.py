@@ -23,7 +23,7 @@ def lerp(v0, v1, t):
 
 
 # from top to bottom
-def get_grad(img, color1, color2):
+def get_vertical_grad(img, color1, color2):
 	image = img.copy()
 	ratios = np.linspace(0, 1, image.shape[0])
 	# generate all points for each given ratio ("ratios" array) between color1 red and color2 red 
@@ -41,17 +41,47 @@ def get_grad(img, color1, color2):
 	return image
 
 
+def get_diagonal_grad(img, color1, color2):
+	image = img.copy()
+	print(image.shape)
+	ratios = np.linspace(0, 1, image.shape[0])
+	for i, t in enumerate(ratios):
+		r = lerp(color1[0], color2[0], t)
+		g = lerp(color1[1], color2[1], t)
+		b = lerp(color1[2], color2[2], t)
+
+		for j in range(i, -1, -1):
+			print(j)
+			for k in range(image.shape[1]):
+				image[:, j, k] = [r, g, b]
+
+	return image
+
+
 def main():
 
 	size = 100
+	# 100 * 100 * 3 [255, 128, 0] * 100 is just one layer and there're 100 such layers with 
+	# different colors. Each layers is in fact a row in a final image
 	image = np.zeros((size, size, 3), dtype="uint8")	
 	color1 = [255, 128, 0]
 	color2 = [0, 128, 255]
-	image = get_grad(image, color1, color2)
+	image = get_vertical_grad(image, color1, color2)
+	# image = get_diagonal_grad(image, color1, color2)
 	
-	plt.imshow(image)
-	plt.show()
+	# plt.imshow(image)
+	# plt.show()
+
 	
+	a = np.array([ [[1, 2, 3,], [4, 5, 6,]],  [[7, 8, 9,], [10, 11, 12]] ])
+	print(a.shape)
+	print(a[:, 0, 1])
+	# a = np.flipud(a)
+	# print(a)
+	# print(np.diagonal(a, offset=-3))
+
+
+
 	return 0
 
 
