@@ -37,13 +37,12 @@ def get_vertical_grad(img, color1, color2):
 		b = lerp(color1[2], color2[2], t)
 		# fill i row with r+g+b color
 		image[i, :, :] = [r, g, b]
-		# print(image[i, :, :])
 	return image
-
+from scipy.ndimage import rotate
 
 def get_diagonal_grad(img, color1, color2):
 	image = img.copy()
-	image = np.swapaxes(image, 0, 2)
+	# image = np.swapaxes(image, 0, 2)
 	print(image.shape)
 
 	ratios = np.linspace(0, 1, image.shape[1])
@@ -58,6 +57,9 @@ def get_diagonal_grad(img, color1, color2):
 			for k in range(image.shape[1]):
 				image[:, j, k] = [r, g, b]
 
+		# for 
+
+		# image[i, :, :] = [r, g, b]
 	return np.swapaxes(image, 0, 2)
 
 
@@ -70,20 +72,24 @@ def main():
 	color1 = [255, 128, 0]
 	color2 = [0, 128, 255]
 	image = get_vertical_grad(image, color1, color2)
-	image = get_diagonal_grad(image, color1, color2)
+	# image = get_diagonal_grad(image, color1, color2)
 	
-	plt.imshow(image)
-	plt.show()
+	# plt.imshow(image)
+	# plt.show()
 
+
+	# the total amount of diagonals in the square matrix is shape[0] * 2 - 1
 	
-	# a = np.array([ [[1, 2, 3,], [4, 5, 6,]],  [[7, 8, 9,], [10, 11, 12]] ])
+	
+	a = np.array([ [[1, 2, 3,], [4, 5, 6,]],  [[7, 8, 9,], [10, 11, 12]] ])
 	# print(a.shape)
 	# print(a)
 	# print(np.swapaxes(a, 0, 2))
 	# print(a[:, 0, 1])
-	# # a = np.flipud(a)
-	# print(a)
-	# print(np.diagonal(a, offset=-3))
+	# a = np.flipud(a)
+	# np.diagonal(a, offset=0)[:] = [0, 0, 0]
+	print(a)
+	print(np.diagonal(a, offset=0))
 
 
 
