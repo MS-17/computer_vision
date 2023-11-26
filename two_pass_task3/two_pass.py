@@ -103,8 +103,15 @@ def two_pass_labeling(B):
                     labels[row, col] = new_label
 
 
-    # todo organize labels correctly
-
+    # reorganize labels in the correct order
+    l = np.unique(labels)[1:]
+    max_label = len(l)
+    # print(l, max_labels)
+    for i in range(max_label):
+        if i + 1 == l[i]:
+            continue
+        labels[labels == l[i]] = i + 1
+    # print(labels)
     return labels
 
 
@@ -134,3 +141,4 @@ if __name__ == "__main__":
     plt.subplot(122)
     plt.imshow(labeled_image.astype("uint8"))
     plt.show()
+
