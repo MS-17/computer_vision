@@ -42,24 +42,25 @@ from scipy.ndimage import rotate
 
 def get_diagonal_grad(img, color1, color2):
 	image = img.copy()
-	# image = np.swapaxes(image, 0, 2)
+	image = np.swapaxes(image, 0, 2)
 	print(image.shape)
 
 	ratios = np.linspace(0, 1, image.shape[1])
+	# print(ratios.shape)
+	vals = []
 	for i, t in enumerate(ratios):
 		r = lerp(color1[0], color2[0], t)
 		g = lerp(color1[1], color2[1], t)
 		b = lerp(color1[2], color2[2], t)
+		vals.append([r, g, b])
 
-		# todo complete
-		for j in range(i, -1, -1):
-			print(j)
-			for k in range(image.shape[1]):
-				image[:, j, k] = [r, g, b]
+	print(vals)
 
-		# for 
+	for i in range(img.shape[1]):
+		# image[:, j, k] = [r, g, b]
+		...
 
-		# image[i, :, :] = [r, g, b]
+
 	return np.swapaxes(image, 0, 2)
 
 
@@ -72,7 +73,7 @@ def main():
 	color1 = [255, 128, 0]
 	color2 = [0, 128, 255]
 	image = get_vertical_grad(image, color1, color2)
-	# image = get_diagonal_grad(image, color1, color2)
+	image = get_diagonal_grad(image, color1, color2)
 	
 	# plt.imshow(image)
 	# plt.show()
