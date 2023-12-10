@@ -29,12 +29,13 @@ def exists(neighbors):
     return not all([n is None for n in neighbors])
 
 
+# find the minimal connected to the "label" label in the graph "linked"
 # let's say linked is the following array: 
 # labels: 0 1 2 3 4
 # linked: 0 2 4 0 3
 # find(2, linked) returns 3 (j = 2 => linked[2] = 4 => j = 4 => linked[4] = 3 =>
 # j = 3 => linked[j] = 0 => stop => return 3)
-# this function finds the connected to the label point via some middle point
+# this function finds the minimal connected to the label point via some middle point
 def find(label, linked):
     j = label
     while linked[j] != 0:
@@ -42,16 +43,21 @@ def find(label, linked):
     return j
 
 
+# connect labels
+# updates the graph 'linked'. Initially linked is a zero array
+# if label1 = 6 and label2 = 8 then linked = [0, 0, 0, 0, 0, 0, 0, 0, 6]
+# (that means that 8 is connected to 6)
 # if label1 is not connected to label2 connect them
 def union(label1, label2, linked):
     j = find(label1, linked)
     k = find(label2, linked)
-    if j != k:
+    if j != k:  # so that the graph doesn't create loops
         linked[k] = j
 
 
 def two_pass_labeling(B):
-    # assign to all non-zero pixels the value = -1
+
+    # assign to all non-zero pixels -1
     B = (B.copy() * - 1).astype("int")
     # print(B)
     # print(B.shape)
@@ -59,7 +65,7 @@ def two_pass_labeling(B):
     # linked components (we'll need it for the second iteration of the algorithm)
     linked = np.zeros(len(B), dtype="uint")
     
-    # a result of the function
+    # a result of this function
     labels = np.zeros_like(B)
 
     # the first label
@@ -75,6 +81,7 @@ def two_pass_labeling(B):
         for col in range(B.shape[1]):
             if B[row, col] != 0:
                 n = neighbors2(B, row, col)
+                # if both neighbours are None, create a new label
                 if not exists(n):
                     m = label
                     label += 1
@@ -83,6 +90,7 @@ def two_pass_labeling(B):
                     # print(n, lbs)
                     m = min(lbs)
                 labels[row, col] = m
+                # update the graph linked (mark the labels that are connected)
                 for i in n:
                     if i is not None:
                         lb = labels[i]
