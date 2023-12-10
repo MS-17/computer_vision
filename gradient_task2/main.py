@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.ndimage import rotate
 
 
 def plot_images(images: dict, nrows: int = 1, ncols: int = 1) -> None:
