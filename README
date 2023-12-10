@@ -1,5 +1,0 @@
-A repository for my computer vision course homeworks
-
-Every directory contains a Makefile. To run a program navigate to the directory you're interested in
-and run the main script via:
-make or make run
